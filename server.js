@@ -42,6 +42,26 @@ app.post("/api/notes", function(req, res){
     // res.json(db)
 });
 
+app.delete("/api/notes/:id", function(req, res){
+    var id = req.params.id - 1;
+    console.log(id);
+    var notes = JSON.parse(fs.readFileSync("./db/db.json", 'utf8', function(err, data){
+        if(err) 
+            throw err;
+        else 
+            console.log("Notes Read succsefully: " + data);
+    }));
+    console.log(notes);
+    var newNotes = notes.slice(id);
+    console.log(newNotes);
+    fs.writeFile("./db/db.json", JSON.stringify(newNotes), function(err){
+        if(err) 
+            throw err;
+        else 
+            res.send("File deleted succesfully");
+    });
+});
+
 
 app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
