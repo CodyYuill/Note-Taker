@@ -7,12 +7,11 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 const db = require("./db/db.json")
 
-app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname, "./public/index.html"));
-});
+
 
 app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "./public/notes.html"));
@@ -39,27 +38,30 @@ app.post("/api/notes", function(req, res){
         else 
             res.send("Note Succesfully added!")
     });
-    // res.json(db)
 });
 
 app.delete("/api/notes/:id", function(req, res){
     var id = req.params.id - 1;
-    console.log(id);
+
     var notes = JSON.parse(fs.readFileSync("./db/db.json", 'utf8', function(err, data){
         if(err) 
             throw err;
         else 
             console.log("Notes Read succsefully: " + data);
     }));
-    console.log(notes);
+
     var newNotes = notes.slice(id);
-    console.log(newNotes);
+
     fs.writeFile("./db/db.json", JSON.stringify(newNotes), function(err){
         if(err) 
             throw err;
         else 
             res.send("File deleted succesfully");
     });
+});
+
+app.get("*", function(req, res) {
+    res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 
