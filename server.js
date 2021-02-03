@@ -41,7 +41,7 @@ app.post("/api/notes", function(req, res){
 });
 
 app.delete("/api/notes/:id", function(req, res){
-    var id = req.params.id - 1;
+    var id = req.params.id;
 
     var notes = JSON.parse(fs.readFileSync("./db/db.json", 'utf8', function(err, data){
         if(err) 
@@ -50,7 +50,7 @@ app.delete("/api/notes/:id", function(req, res){
             console.log("Notes Read succsefully: " + data);
     }));
 
-    var newNotes = notes.slice(id);
+    var newNotes = notes.filter(note => note.id !== id);
 
     fs.writeFile("./db/db.json", JSON.stringify(newNotes), function(err){
         if(err) 
