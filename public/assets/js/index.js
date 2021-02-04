@@ -3,10 +3,9 @@ const $noteText = $(".note-textarea");
 const $saveNoteBtn = $(".save-note");
 const $newNoteBtn = $(".new-note");
 const $noteList = $(".list-container .list-group");
-
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
-let currentID = 1;
+
 
 // A function for getting all notes from the db
 const getNotes = () => {
@@ -55,11 +54,7 @@ const handleNoteSave = function () {
   const newNote = {
     title: $noteTitle.val(),
     text: $noteText.val(),
-    id: currentID
   };
-  
-  currentID++;
-
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
@@ -69,12 +64,15 @@ const handleNoteSave = function () {
 // Delete the clicked note
 const handleNoteDelete = function (event) {
   // prevents the click listener for the list from being called when the button inside of it is clicked
+
   event.stopPropagation();
   const note = $(this).parent(".list-group-item").data();
+
   if (activeNote.id === note.id) {
     activeNote = {};
   }
 
+  
   deleteNote(note.id).then(() => {
     getAndRenderNotes();
     renderActiveNote();
