@@ -55,7 +55,7 @@ const handleNoteSave = function () {
     title: $noteTitle.val(),
     text: $noteText.val(),
   };
-  saveNote(newNote).then(() => {
+  saveNote(newNote).done(() => {
     getAndRenderNotes();
     renderActiveNote();
   });
@@ -73,7 +73,7 @@ const handleNoteDelete = function (event) {
   }
 
   
-  deleteNote(note.id).then(() => {
+  deleteNote(note.id).done(() => {
     getAndRenderNotes();
     renderActiveNote();
   });
@@ -104,7 +104,6 @@ const handleRenderSaveBtn = function () {
 // Render's the list of note titles
 const renderNoteList = (notes) => {
   $noteList.empty();
-
   const noteListItems = [];
 
   // Returns jquery object for li with given text and delete button
@@ -113,7 +112,6 @@ const renderNoteList = (notes) => {
     const $li = $("<li class='list-group-item'>");
     const $span = $("<span>").text(text);
     $li.append($span);
-
     if (withDeleteButton) {
       const $delBtn = $(
         "<i class='fas fa-trash-alt float-right text-danger delete-note'>"
@@ -131,7 +129,7 @@ const renderNoteList = (notes) => {
     const $li = create$li(note.title).data(note);
     noteListItems.push($li);
   });
-
+  console.log(noteListItems);
   $noteList.append(noteListItems);
 };
 
