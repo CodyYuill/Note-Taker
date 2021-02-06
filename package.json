@@ -13,5 +13,15 @@
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "path": "^0.12.7"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodyYuill/Note-Taker.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/CodyYuill/Note-Taker/issues"
+  },
+  "homepage": "https://github.com/CodyYuill/Note-Taker#readme"
 }
