@@ -10,6 +10,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const db = require("./db/db.json")
+console.log(db);
 
 
 
@@ -22,6 +23,7 @@ app.get("/api/notes", function(req, res){
 });
 
 app.post("/api/notes", function(req, res){
+    console.log("HITHITIHITHIHTIHIHTIHTIHTIHTIHTITH");
     var newNote = req.body;
     
     var notes = JSON.parse(fs.readFileSync("./db/db.json", 'utf8', function(err, data){
