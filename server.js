@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const db = require(path.join(__dirname, "/db/db.json"));
+const db = require(path.join(__dirname, "db/db.json"));
 console.log(db);
 
 
@@ -24,29 +24,38 @@ app.get("/api/notes", function(req, res){
 app.post("/api/notes", function(req, res){
     var newNote = req.body;
     
-    var notes = JSON.parse(fs.readFileSync("./db/db.json", 'utf8', function(err, data){
-        if(err) 
-        throw err;
-        else 
-        console.log("Notes Read succsefully: " + data);
-    }));
-    
-    if(notes.length === 0)
-    {
-        newNote.id = 0;
-    }
-    else{
-        newNote.id = notes[notes.length - 1].id + 1;
-    }
-    notes.push(newNote);
-    console.log(notes);
 
-    fs.writeFile("./db/db.json", JSON.stringify(notes), function(err){
+    // var notes = JSON.parse(fs.readFileSync("./db/db.json", 'utf8', function(err, data){
+    //     if(err) 
+    //         throw err;
+    //     else 
+    //         console.log("Notes Read succsefully: " + data);
+    // }));
+    var notes = []
+    fs.readFile("./db/db.json", 'utf8', function(err, data){
         if(err) 
             throw err;
-        else 
-            res.send("Note Succesfully added!")
+        else{
+            notes = JSON.parse(data);
+            if(notes.length === 0)
+            {
+                newNote.id = 0;
+            }
+            else{
+                newNote.id = notes[notes.length - 1].id + 1;
+            }
+            notes.push(newNote);
+            console.log(notes);
+        
+            fs.writeFile("./db/db.json", JSON.stringify(notes), function(err){
+                if(err) 
+                    throw err;
+                else 
+                    res.send("Note Succesfully added!")
+            });
+        }
     });
+    
 });
 
 app.delete("/api/notes/:id", function(req, res){
