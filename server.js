@@ -9,12 +9,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const db = require(path.join(__dirname, "db/db.json"));
+const db = require(path.join(__dirname, "/db/db.json"));
 console.log(db);
 
 
 app.get("/notes", function(req, res) {
-    res.sendFile(path.join(__dirname, "./public/notes.html"));
+    res.sendFile(path.join(__dirname, "/public/notes.html"));
 });
 
 app.get("/api/notes", function(req, res){
@@ -32,7 +32,7 @@ app.post("/api/notes", function(req, res){
     //         console.log("Notes Read succsefully: " + data);
     // }));
     var notes = []
-    fs.readFile("./db/db.json", 'utf8', function(err, data){
+    fs.readFile(path.join(__dirname, "/db/db.json"), 'utf8', function(err, data){
         if(err) 
             throw err;
         else{
@@ -47,7 +47,7 @@ app.post("/api/notes", function(req, res){
             notes.push(newNote);
             console.log(notes);
         
-            fs.writeFile("./db/db.json", JSON.stringify(notes), function(err){
+            fs.writeFile(path.join(__dirname, "/db/db.json"), JSON.stringify(notes), function(err){
                 if(err) 
                     throw err;
                 else 
@@ -61,7 +61,7 @@ app.post("/api/notes", function(req, res){
 app.delete("/api/notes/:id", function(req, res){
     var id = req.params.id;
 
-    var notes = JSON.parse(fs.readFileSync("./db/db.json", 'utf8', function(err, data){
+    var notes = JSON.parse(fs.readFileSync(path.join(__dirname, "/db/db.json"), 'utf8', function(err, data){
         
         if(err) 
             throw err;
@@ -72,7 +72,7 @@ app.delete("/api/notes/:id", function(req, res){
 
     var newNotes = notes.filter(note => note.id != id);
 
-    fs.writeFile("./db/db.json", JSON.stringify(newNotes), function(err){
+    fs.writeFile(path.join(__dirname, "/db/db.json"), JSON.stringify(newNotes), function(err){
         
         if(err) 
             throw err;
@@ -82,7 +82,7 @@ app.delete("/api/notes/:id", function(req, res){
 });
 
 app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "./public/index.html"));
+    res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
 
