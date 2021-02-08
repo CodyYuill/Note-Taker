@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const db = require(path.join(__dirname, "./db/db.json"));
+const db = require(path.join(__dirname, "/db/db.json"));
 console.log(db);
 
 
