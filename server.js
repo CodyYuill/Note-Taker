@@ -23,40 +23,27 @@ app.get("/api/notes", function(req, res){
 
 app.post("/api/notes", function(req, res){
     var newNote = req.body;
-    
 
-    // var notes = JSON.parse(fs.readFileSync("./db/db.json", 'utf8', function(err, data){
-    //     if(err) 
-    //         throw err;
-    //     else 
-    //         console.log("Notes Read succsefully: " + data);
-    // }));
-    var notes = [];
-    fs.readFile(path.join(__dirname, "/db/db.json"), 'utf8', function(err, data){
-        if(err) 
-            throw err;
-        else{
-            notes = JSON.parse(data);
-            if(notes.length === 0)
-            {
-                newNote.id = 0;
-            }
-            else{
-                newNote.id = notes[notes.length - 1].id + 1;
-            }
-            notes.push(newNote);
-            console.log(notes);
-        
-            fs.writeFile(path.join(__dirname, "/db/db.json"), JSON.stringify(notes), function(err){
-                if(err) 
-                    throw err;
-                else 
-                    res.send("Note Succesfully added!");
-            });
-        }
-    });
     
-});
+        if(db.length === 0)
+        {
+            newNote.id = 0;
+        }
+        else{
+            newNote.id = db[db.length - 1].id + 1;
+        }
+        db.push(newNote);
+        console.log(db);
+    
+        fs.writeFile(path.join(__dirname, "/db/db.json"), JSON.stringify(db), function(err){
+            if(err) 
+                throw err;
+            else 
+                res.send("Note Succesfully added!");
+        });
+    }
+    
+);
 
 app.delete("/api/notes/:id", function(req, res){
     var id = req.params.id;
