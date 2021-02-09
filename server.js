@@ -24,7 +24,6 @@ app.get("/api/notes", function(req, res){
 app.post("/api/notes", function(req, res){
     var newNote = req.body;
 
-    
         if(db.length === 0)
         {
             newNote.id = 0;
@@ -48,18 +47,16 @@ app.post("/api/notes", function(req, res){
 app.delete("/api/notes/:id", function(req, res){
     var id = req.params.id;
 
-    var notes = JSON.parse(fs.readFileSync(path.join(__dirname, "/db/db.json"), 'utf8', function(err, data){
-        
-        if(err) 
-            throw err;
-        else 
-            console.log("Notes Read succsefully: " + data);
-    }));
-    
+    var noteToDelete = db.find((note) => note.id == id);
+    if(noteToDelete)
+    {
+        db.splice(db.indexOf(noteToDelete), 1);
+    }
 
-    var newNotes = notes.filter(note => note.id != id);
+    // var newNotes = db.filter(note => note.id != id);
+    // console.log(newNotes);
 
-    fs.writeFile(path.join(__dirname, "/db/db.json"), JSON.stringify(newNotes), function(err){
+    fs.writeFile(path.join(__dirname, "/db/db.json"), JSON.stringify(db), function(err){
         
         if(err) 
             throw err;
@@ -76,3 +73,7 @@ app.get("*", function(req, res) {
 app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
 });
+
+function checkIndex(id){
+    return db.id === id;
+}
